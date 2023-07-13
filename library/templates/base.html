@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <div id="nav">
+        {% if request.user.is_authenticated %}
+                Hello, <a href="{% url 'authentication:account' user.id %}">{{request.user.first_name}}</a>
+        <br>
+
+        <a href="{% url 'authentication:logout' %}">Logout</a>
+
+            <p><a href="{% url 'book:book' %} ">Book page</a> |
+                 <a href="{% url 'order:order_view' %} ">Order page</a>
+
+            {% if request.user.role == 1 %}
+                | <a href="{% url 'author:author' %}">Author page</a> |
+                <a href="{% url 'authentication:users_list' %}">Users List</a></p>
+            {% endif %}
+
+        {% else %}
+            <a href="{% url 'authentication:login' %}">Log in</a>
+            <a href="{% url 'authentication:registration' %}">Registration</a>
+
+
+        {% endif %}
+
+    </div>
+
+    <div id="content">
+            {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Add new author{% endblock %}
+{% block content %}
+<form action="{% url 'author:submit_new_author' %}" method="post">
+    {% csrf_token %}
+    {{ error_message }}
+    Add new author:
+    <p>
+    <label for="author_name">Name:</label>
+        <input id="author_name" name="author_name" required>
+    </p>
+    <p>
+    <label for="author_surname">Surname:</label>
+        <input id="author_surname" name="author_surname" required>
+    </p>
+    <p>
+    <label for="author_patronymic">Patronymic:</label>
+        <input id="author_patronymic" name="author_patronymic">
+    </p>
+    <button type="submit">Submit</button>
+    <button onclick="location.href = '{% url 'author:author' %}'">Back</button>
+</form>
+{% endblock %}

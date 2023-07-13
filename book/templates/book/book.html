@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Library{% endblock %}
+{% block content %}
+    <h3>List of books:</h3>
+
+    <form action="{% url 'book:book' %}" method = "post">
+        {% csrf_token %}
+        <label for="parameter">Find a book:</label>
+            <select id="parameter" name="parameter">
+              <option value="authors">Author surname</option>
+              <option value="title">Title</option>
+            </select>
+          <input type="text" name="value">
+          <button type="submit">Find!</button>
+    </form>
+
+    {% if parameter and value %}
+        <p>Your search for a book by {{ parameter }} with value '{{ value }}'</p>
+        <a href="{% url 'book:book' %}">Clear filter</a>
+    {% endif %}
+
+    <ul>
+        {% for book in books %}
+          <li><a href="{% url 'book:book_details' book.id %}">{{book.name}}</a></li>
+        {% empty %}
+            <p>No books found!</p>
+        {% endfor %}
+
+    </ul>
+    {% if request.user.role == 1 %}
+    <button onclick="location.href = '{% url 'book:add_book' %}'">Add new book</button>
+    {% endif %}
+
+{% endblock %}

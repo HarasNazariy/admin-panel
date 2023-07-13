@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{book.name}}{% endblock %}
+{% block content %}
+    <h3>Information about book:</h3>
+
+    <p>Title: {{book.name}}</p>
+    <p>Authors:</p>
+        {% for author in book.authors.all %}
+            <li>{{author.surname}} {{author.name}}</li>
+        {% endfor %}
+    <p>Descriptions: {{book.description}}</p>
+    <p>Count: {{book.count}}</p>
+
+    <form action="{% url 'book:remove_book' book.id %}" method="post">
+        {% csrf_token %}
+        {% if request.user.role == 1 %}
+            <button type="submit">Delete</button>
+        {% endif %}
+        <button type="button" onclick="location.href = '{% url 'book:book' %}'">Back</button>
+    </form>
+{% endblock %}

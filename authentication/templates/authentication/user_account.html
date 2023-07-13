@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{request.user.first_name}}{% endblock %}
+
+{% block content %}
+<h3>Welcome to account</h3>
+    <form action="{% url 'authentication:update_yourself' user_account.id %}" method="post">
+        {% csrf_token %}
+        <ul>
+        <li>
+            <label for='user_account_first_name'>Name:</label>
+            <input type="text" id='user_account_first_name' value="{{user_account.first_name}}" name="first_name">
+        </li>
+        <li>
+            <label for='user_account_middle_name'>Middle name:</label>
+            <input type="text" id='user_account_middle_name' value="{{user_account.middle_name}}" name="middle_name">
+        </li>
+        <li>
+            <label for='user_account_last_name'>Last name:</label>
+            <input type="text" id='user_account_last_name' value="{{user_account.last_name}}" name="last_name">
+        </li>
+        <li>
+            <label for="user_account_email">Email:</label>
+            <input type="email" id="user_account_email" value="{{user_account.email}}" readonly="readonly">
+        </li>
+
+        </ul>
+        <button type="submit">Save</button>
+        <button type="button" onclick="location.href='{% url 'index' %}';">Home</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+<h3>Order list</h3>
+{% if request.user.role == 1 %}
+    <a href="{% url 'order:order_view' %}">All orders</a>
+{% else %}
+    <a href="{% url 'order:order_view' %}">My orders</a>
+{% endif %}
+<br>
+
+{% if request.user.role == 1 %}
+    <p>View orders by user</p>
+    <form action="{% url 'order:book_for_user' %}" >
+        Select a user by email:
+        <select name="user_id">
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.email }}</option>
+            {% endfor %}
+        </select>
+            <button type="submit">Get</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'order:order_view' %}">Add new order</a></p>
+
+
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th colspan="7">User List</th>
+            </tr>
+        </thead>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Activate</th>
+            <th>Details</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{user.last_name}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.middle_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.get_role_name}}</td>
+            <td>{{user.is_active}}</td>
+            <td><a href="{% url 'authentication:users_details' user.id %}">Details</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

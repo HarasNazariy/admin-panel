@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Order{% endblock %}
+{% block content %}
+
+{% if request.user.role == 1 %}
+    <h3>View orders by user:</h3>
+    <form action="{% url 'order:book_for_user' %}" >
+        Select a user by email:
+        <select name="user_id">
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.email }}</option>
+            {% endfor %}
+        </select>
+            <button type="submit">Get</button>
+    </form>
+{% endif %}
+
+
+    {% if request.user.role == 0 %}
+    <h3>Add order:</h3>
+        {% if error_message %} {{ error_message }} {% endif %}
+        <form action="{% url 'order:order_view' %}" method="post">
+            {% csrf_token %}
+            <label for="book">Book:</label>
+                <select name="book" id="book" required>
+                    {% for book in all_books %}
+                        <option value="{{ book.id }}">{{ book.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="myDateInput">Plated End At:</label>
+                    <input type="date" id="myDateInput" name="plated_end_at" min="" required>
+                <button type="submit">Add order</button>
+        </form>
+        <h3>My orders:</h3>
+        {% for order in all_orders %}
+            <li>Book: {{ order.book.name }}</li>
+            Planed return date: {{ order.plated_end_at.date }}
+            <br><br>
+        {% endfor %}
+
+    {% else %}
+            <h3>All orders:</h3>
+
+        {% if error_message %} {{ error_message }} {% endif %}
+
+    <form action="{% url 'order:close_order' %}" method="post">
+        {% csrf_token %}
+    <table>
+
+        <tr>
+                <th>id</th>
+                <th>Title</th>
+                <th>User</th>
+                <th>Planed return date</th>
+                <th>Close order</th>
+            </tr>
+        {% for order in all_orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.book.name }}</td>
+                <td>{{ order.user.email }}</td>
+                <td>{{ order.plated_end_at.date }}</td>
+                <td><input type="checkbox" name="close_order" value="{{ order.id }}"></td>
+            </tr>
+
+        {% endfor %}
+
+    </table>
+
+        <button type="submit">Close selected orders</button>
+    </form>
+    {% endif %}
+
+
+
+
+
+<script>
+    // Get the current date
+    var today = new Date().toISOString().split('T')[0];
+
+    // Set the minimum date for the input field
+    document.getElementById("myDateInput").min = today;
+</script>
+
+{% endblock %}

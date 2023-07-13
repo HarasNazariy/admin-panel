@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Order by user {% endblock %}
+
+{% block content %}
+
+<p>You are looking for books that [{{ email }}] took:</p>
+
+{% if orders %}
+<form action="{% url 'order:close_order' %}" method="post">
+    {% csrf_token %}
+    <table>
+
+            <tr>
+                    <th>id</th>
+                    <th>Title</th>
+                    <th>User</th>
+                    <th>Planed return date</th>
+                    <th>Close order</th>
+                </tr>
+                 {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.book.name }}</td>
+                    <td>{{ order.user.email }}</td>
+                    <td>{{ order.plated_end_at.date }}</td>
+                    <td><input type="checkbox" name="close_order" value="{{ order.id }}"></td>
+                </tr>
+
+
+
+{% endfor %}
+ </table>
+            <button type="submit">Close selected orders</button>
+    </form>
+{% else %}
+    <li>No orders</li>
+{% endif %}
+    <button onclick="location.href = '{% url 'order:order_view' %}'">Back</button>
+
+
+{% endblock %}

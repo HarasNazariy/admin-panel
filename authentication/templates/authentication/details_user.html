@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{{request.user.last_name}} {{request.user.first_name}}{% endblock %}
+
+{% block content %}
+
+    <table>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Email</th>
+            <th>Created at</th>
+        </tr>
+
+        <tr>
+            <td>{{user.last_name}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.middle_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.created_at}}</td>
+        </tr>
+    </table>
+
+    <form action="{% url 'authentication:update_user' user.id %}" method="post">
+        {% csrf_token %}
+        <p>Role:</p>
+        {% if user.role == 1 %}
+            <input type="radio" id="role-admin" name="role" value="1" checked>
+            <label for="role-admin">Librarian</label>
+            <input type="radio" id="role-user" name="role" value="0" >
+            <label for="role-user">User</label>
+        {% else %}
+            <input type="radio" id="role-admin" name="role" value="1">
+            <label for="role-admin">Librarian</label>
+            <input type="radio" id="role-user" name="role" value="0" checked>
+            <label for="role-user">User</label>
+        {% endif %}
+
+        <p>Active:</p>
+        {% if user.is_active == True %}
+            <input type="radio" id="is-active-1" name="active" value="1" checked>
+            <label for="is-active-1">Active</label>
+            <input type="radio" id="is-active-0" name="active" value="0" >
+            <label for="is-active-0">Not Active</label>
+        {% else %}
+            <input type="radio" id="is-active-1" name="active" value="1">
+            <label for="is-active-1">Active</label>
+            <input type="radio" id="is-active-0" name="active" value="0" checked>
+            <label for="is-active-0">Not Active</label>
+        {% endif %}
+
+        <br>
+        <button onclick="history.back()" type="button">Back</button>
+        <button type="submit">Save</button>
+    </form>
+
+{% endblock %}

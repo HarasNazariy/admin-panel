@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{% block title %}Add order{%endblock %}
+{% block content %}
+
+
+    {% if request.user.role == 0 %}
+        <h3>New order:</h3>
+        {% if error_message %} {{ error_message }} {% endif %}
+        <form action="{% url 'order:order_view' %}" method="post">
+            {% csrf_token %}
+            <label for="book">Book:</label>
+                <select name="book" id="book" required>
+                    {% for book in all_books %}
+                        <option value="{{ book.id }}">{{ book.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="myDateInput">Plated End At:</label>
+                    <input type="date" id="myDateInput" name="plated_end_at" min="" required>
+                <button type="submit">Add order</button>
+        </form>
+    {% endif %}
+
+
+{% endblock %}

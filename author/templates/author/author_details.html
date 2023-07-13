@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Authors{% endblock %}
+{% block content %}
+<h3>Books by {{author.surname}} {{author.name}} {{author.patronymic}}:</h3>
+    {% for book in books %}
+        <ul>
+            <li>{{book.name}}</li>
+        </ul>
+    {% empty %}
+        <p>No books by {{author.surname}} {{author.name}} {{author.patronymic}} yet.<p>
+
+    <form action="{% url 'author:remove_author' author.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Delete author</button>
+    </form>
+    {% endfor %}
+    <button onclick="location.href = '{% url 'author:author' %}'">Back</button>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Login page{% endblock %}
+
+{% block content %}
+
+    <h1>Sing In</h1>
+
+        <form action="{% url 'authentication:login' %}" method="post">
+        {% csrf_token %}
+
+          <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email"><br>
+
+          <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br>
+            <br>
+
+          <button type="submit" >Sing In</button>
+        </form>
+
+    <p> If you haven't an account, please sign up: <a href="{% url 'authentication:registration' %}"> Sing Up </a></p>
+    {{ error_message }}
+{% endblock %}

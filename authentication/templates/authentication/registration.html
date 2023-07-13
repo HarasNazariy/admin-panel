@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Login page{% endblock %}
+
+{% block content %}
+    <h1>Sing Up</h1>
+
+    <form action="{% url 'authentication:registration' %}" method="post">
+        {% csrf_token %}
+
+        <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email"><br>
+
+        <label for="pass">Password:</label><br>
+            <input type="password" id="pass" name="pass"><br>
+
+<!--        <input type="radio" id="1" name="role" value="1">-->
+<!--            <label for="1">Librarian</label>-->
+
+<!--        <input type="radio" id="0" name="role" value="0">-->
+<!--            <label for="0">User</label><br>-->
+<!--        <br>-->
+
+        <button type="submit">Sing Up</button>
+
+    </form>
+
+    <p> If you already have an account: <a href="{% url 'authentication:login' %}"> Sing In</a></p>
+
+  {% if error_message %}
+      <p>{{ error_message }}</p>
+  {% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+<h3>Add Book:</h3>
+    <form action="{% url 'book:add_book' %}" method = "post">
+        {% csrf_token %}
+
+        <label for="name">Title:</label>
+            <input id="name" type="text" name="name" required><br><br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="5"></textarea><br><br>
+        <label for="count">Count:</label>
+            <input id="count" type="number" name="count" min="1" required>
+        <br><br>
+        <label for="authors">Authors:</label>
+            <select id="authors" name="authors" multiple required size="10">
+                {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.surname }} {{ author.name }}</option>
+                {% endfor %}
+            </select>
+        <br><br>
+        <button type="submit">Add</button>
+        <button type="button" onclick="location.href = '{% url 'book:book' %}'">Back</button>
+    </form>
+
+
+{% endblock %}
